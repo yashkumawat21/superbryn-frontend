@@ -21,7 +21,8 @@ interface VoiceCallProps {
   onSummary: (summary: any) => void;
 }
 
-export default function VoiceCall({ room, transcripts, onToolCall, onSummary }: VoiceCallProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function VoiceCall({ room, transcripts, onToolCall: _onToolCall, onSummary: _onSummary }: VoiceCallProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoEnabled, setIsVideoEnabled] = useState(false);
   const [isAudioReady, setIsAudioReady] = useState(false);

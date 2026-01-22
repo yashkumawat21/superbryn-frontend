@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Room, RoomEvent, RemoteParticipant, Track, TrackPublication, RemoteTrack, DataPacket_Kind } from 'livekit-client';
+import { Room, RoomEvent, RemoteParticipant, TrackPublication, RemoteTrack } from 'livekit-client';
 import axios from 'axios';
 import './App.css';
 import VoiceCall from './components/VoiceCall';
@@ -40,7 +40,8 @@ function App() {
   const roomRef = useRef<Room | null>(null);
 
   // Handle data messages from the agent
-  const handleDataReceived = useCallback((payload: Uint8Array, participant?: RemoteParticipant) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleDataReceived = useCallback((payload: Uint8Array, _participant?: RemoteParticipant) => {
     try {
       const decoder = new TextDecoder();
       const data = JSON.parse(decoder.decode(payload));
@@ -118,7 +119,7 @@ function App() {
         setIsConnecting(false);
       });
 
-      newRoom.on(RoomEvent.TrackSubscribed, (track: RemoteTrack, publication: TrackPublication, participant: RemoteParticipant) => {
+      newRoom.on(RoomEvent.TrackSubscribed, (track: RemoteTrack, _publication: TrackPublication, participant: RemoteParticipant) => {
         console.log(`Track subscribed: ${track.kind} from ${participant.identity}`);
 
         if (track.kind === 'audio') {
@@ -134,7 +135,7 @@ function App() {
         }
       });
 
-      newRoom.on(RoomEvent.TrackUnsubscribed, (track: RemoteTrack, publication: TrackPublication, participant: RemoteParticipant) => {
+      newRoom.on(RoomEvent.TrackUnsubscribed, (track: RemoteTrack, _publication: TrackPublication, participant: RemoteParticipant) => {
         console.log(`Track unsubscribed: ${track.kind} from ${participant.identity}`);
         const elements = track.detach();
         elements.forEach(el => el.remove());
